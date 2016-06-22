@@ -15,7 +15,6 @@ suma [] = 0
 suma (x:arr) = x + (suma arr)
 
 mapiar _ [] = []
-
 mapiar fn (x:arr) = (fn x):(mapiar fn arr) 
 
 swap (x,y) = (y, x)
@@ -140,3 +139,11 @@ comer index cadFrom cadAt = eat index cadFrom cadAt
 				cadFrom ++ (removerArr (getLongitudArr cadFrom) cadAt)
 			| otherwise = (takear index cadAt) ++ cadFrom
 				++ (removerArr ((getLongitudArr cadFrom) + index) cadAt)
+
+concatenar value arr = arr++[value]
+
+partir (value:arr) = partire value arr
+	where
+		partire _ [] = []
+		partire value (y:x:arr)
+			| value /= ' ' && y /= ' ' = (value++y)++(partire x arr)
