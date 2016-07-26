@@ -4,7 +4,6 @@ square x = x * x
 
 fib 0 = 0
 fib 1 = 1
-
 fib x = (fib (x-2) + (fib (x-1)))
 
 primerArreglo (x:arr) = x
@@ -66,6 +65,16 @@ findElemento arr y = findElem arr y
 			| (x == y) = True
 			| otherwise = findElem arr y
 
+{-
+	
+indexOf arr y = findElem arr y
+	where
+		findElem [] y = False
+		findElem (x:arr) y 
+			| (x == y) = True
+			| otherwise = findElem arr y
+-}
+
 takear cant arr = toma cant arr
 	where
 		toma _ [] = []
@@ -113,22 +122,17 @@ ordenar arr = sorting arr
 			(getMenorElemento arr):(sorting 
 			(eliminar arr (getMenorElemento arr) ) )
 
---Old stuff
---getMenorElemento arr = menorElemento arr
---	where 
---	menorElemento [] = []
---	menorElemento [x] = x
---	menorElemento (x1:x2:arr)
---		| (x1 < x2) = menorElemento(x1:arr)
---		| otherwise = menorElemento(x2:arr)
+removeDups arr = remDups arr
+	where
+		remDups [] = []
+		remDups [x] = [x]
+		remDups (x:y:arr)  
+			| x == y = remDups (y:arr)
+			| otherwise = x:remDups(y:arr)
 
---getMayorElemento arr = mayorElemento arr
---	where 
---	mayorElemento [] = []
---	mayorElemento [x] = [x]
---	mayorElemento (x1:x2:arr)
---		| (x1 > x2) = mayorElemento(x1:arr)
---		| otherwise = mayorElemento(x2:arr)
+orderUnir arr1 arr2 = ordenar(concatenar (ordenar arr1) (ordenar arr2)) 
+
+unionWithoutDups arr1 arr2 = removeDups (orderUnir arr1 arr2) 
 
 --Bono personal
 comer index cadFrom cadAt = eat index cadFrom cadAt
@@ -140,10 +144,33 @@ comer index cadFrom cadAt = eat index cadFrom cadAt
 			| otherwise = (takear index cadAt) ++ cadFrom
 				++ (removerArr ((getLongitudArr cadFrom) + index) cadAt)
 
-concatenar value arr = arr++[value]
+--concatenar arr value = arr++[value]
+concatenar arr value = arr++value
 
+{-
 partir (value:arr) = partire value arr
 	where
 		partire _ [] = []
 		partire value (y:x:arr)
 			| value /= ' ' && y /= ' ' = (value++y)++(partire x arr)
+			-}
+
+myLast (x:arr) = miUltimoElemento x arr
+	where
+		--miUltimoElemento [] [] = []
+		--miUltimoElemento [] [] = []
+		miUltimoElemento x [] = x
+		miUltimoElemento _ (y:arr) = miUltimoElemento y arr
+
+reversar arr = invertir arr
+	where
+		invertir [] = []
+		invertir [x] = [x]
+		invertir (x:arr) = 
+			myLast(x:arr):invertir( takear ((getLongitudArr (x:arr)) - 1) (x:arr))
+
+palindromo arr = palindro arr
+	where
+		palindro arr
+			| arr == (reversar arr) = True
+			| otherwise = False
